@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_macro">
+    <sys_ui_macro action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category>general</category>
+        <description>This Macro is used to generate Notification Tab Inside Incident Forum</description>
+        <media_type/>
+        <name>Nanoheal Notification</name>
+        <scoped_name>x_179178_nanoheala_Nanoheal Notification</scoped_name>
+        <sys_class_name>sys_ui_macro</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-12-11 10:56:19</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>7e75d2d40f4303007c72943be1050e6b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Nanoheal Notification</sys_name>
+        <sys_package display_value="NanohealApp" source="x_179178_nanoheala">50d492d00f4303007c72943be1050e1d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="NanohealApp">50d492d00f4303007c72943be1050e1d</sys_scope>
+        <sys_update_name>sys_ui_macro_7e75d2d40f4303007c72943be1050e6b</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-12-11 10:56:19</sys_updated_on>
+        <xml><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+    <div class="container">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse1"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">Critical</span><span class="badge padiing">3</span></a>
+                    </h4>
+                    <div id="collapse1" class="panel-collapse collapse" style="padding-top: 15px;">
+                        <ul class="list-group">
+                            <li class="list-group-item"><div class="checkbox">
+                                    <label><input type="checkbox" value=""/>Issue 1</label>
+                                </div></li>
+                            <li class="list-group-item"><div class="checkbox">
+                                    <label><input type="checkbox" value=""/>Issue 2</label>
+                                </div></li>
+                            <li class="list-group-item"><div class="checkbox">
+                                    <label><input type="checkbox" value=""/>Issue 3</label>
+                                </div></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse2"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">Major</span><span class="badge padiing">2</span></a>
+                    </h4>
+                    <div id="collapse2" class="panel-collapse collapse" style="padding-top: 15px;">
+                        <ul class="list-group">
+                            <li class="list-group-item"><div class="checkbox">
+                                    <label><input type="checkbox" value=""/>Issue 1</label>
+                                </div></li>
+                            <li class="list-group-item"><div class="checkbox">
+                                    <label><input type="checkbox" value=""/>Issue 2</label>
+                                </div></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse2"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">Minor</span><span class="badge padiing">4</span></a>
+                    </h4>
+                    <div id="collapse3" class="panel-collapse collapse" style="padding-top: 15px;">
+                        <ul class="list-group">
+                            <li class="list-group-item"><div class="checkbox">
+                                    <label><input type="checkbox" value=""/>Issue 1</label>
+                                </div></li>
+                            <li class="list-group-item"><div class="checkbox">
+                                    <label><input type="checkbox" value=""/>Issue 2</label>
+                                </div></li>
+                            <li class="list-group-item"><div class="checkbox">
+                                    <label><input type="checkbox" value=""/>Issue 3</label>
+                                </div></li>
+                            <li class="list-group-item"><div class="checkbox">
+                                    <label><input type="checkbox" value=""/>Issue 4</label>
+                                </div></li>
+                        </ul>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+        <button type="button" class="btn btn-default">Fix</button>
+    </div>
+
+    <script type="text/javascript">
+        document.getElementById("element.incident.u_api_response").style.display = "none";
+        document.addEventListener('DOMContentLoaded', function () {
+            var apiResponse = document.getElementById("incident.u_api_response").value;
+            var name = document.getElementById("incident.number").value;
+            document.getElementById("api_response").value = NOW.sysId;
+            document.getElementById("temp_span").innerHTML = "New Value From JS";
+
+            //Service call   
+            var xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                    if (xmlhttp.status == 200) {
+                        document.getElementById("temp_span").innerHTML = xmlhttp.responseText;
+                    }
+                    else if (xmlhttp.status == 400) {
+                        alert('There was an error 400');
+                    }
+                    else {
+                        alert('something else other than 200 was returned');
+                    }
+                }
+            };
+
+            xmlhttp.open("GET", "https://jsonplaceholder.typicode.com/posts/1", true);
+            xmlhttp.send();
+        }, false);
+    </script>
+</j:jelly>]]></xml>
+    </sys_ui_macro>
+</record_update>
