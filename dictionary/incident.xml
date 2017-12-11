@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element attributes="email_client=true,hasWorkflow=true,live_feed=true,text_index_translations" audit="true" extends="task" label="Incident" max_length="40" name="incident" sizeclass="63" text_index="true" type="collection">
+        <element label="Service Tag" max_length="50" name="x_179178_nanoheala_service_tag" type="string"/>
+    </element>
+</database>

@@ -2,16 +2,30 @@
 <record_update>
     <sys_ui_section caption="Notification" section_id="bfbc96580f4303007c72943be1050e74" sys_domain="global" table="incident" version="3" view="">
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>x_179178_nanoheala_Nanoheal Notification.xml</element>
+            <element>x_179178_nanoheala_service_tag</element>
             <position>0</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-12-11 11:25:31</sys_created_on>
-            <sys_id>f3bc96580f4303007c72943be1050e76</sys_id>
+            <sys_created_on>2017-12-11 11:55:43</sys_created_on>
+            <sys_id>cea326d80f4303007c72943be1050eeb</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Notification" display_value="Notification" name="incident" sys_domain="global" view="Default view">bfbc96580f4303007c72943be1050e74</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2017-12-11 11:55:43</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>x_179178_nanoheala_Nanoheal Notification.xml</element>
+            <position>1</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2017-12-11 11:55:43</sys_created_on>
+            <sys_id>42a326d80f4303007c72943be1050eec</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter display_value="Nanoheal Notification">7ff79ed40f4303007c72943be1050ea7</sys_ui_formatter>
             <sys_ui_section caption="Notification" display_value="Notification" name="incident" sys_domain="global" view="Default view">bfbc96580f4303007c72943be1050e74</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-12-11 11:25:31</sys_updated_on>
+            <sys_updated_on>2017-12-11 11:55:43</sys_updated_on>
             <sys_user/>
             <type>formatter</type>
         </sys_ui_element>
