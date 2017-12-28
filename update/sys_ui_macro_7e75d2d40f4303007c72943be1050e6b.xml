@@ -12,7 +12,7 @@
         <sys_created_on>2017-12-11 10:56:19</sys_created_on>
         <sys_customer_update>true</sys_customer_update>
         <sys_id>7e75d2d40f4303007c72943be1050e6b</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>92</sys_mod_count>
         <sys_name>Nanoheal Notification</sys_name>
         <sys_package display_value="NanohealApp" source="x_179178_nanoheala">50d492d00f4303007c72943be1050e1d</sys_package>
         <sys_policy/>
@@ -20,104 +20,210 @@
         <sys_scope display_value="NanohealApp">50d492d00f4303007c72943be1050e1d</sys_scope>
         <sys_update_name>sys_ui_macro_7e75d2d40f4303007c72943be1050e6b</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2017-12-11 10:56:19</sys_updated_on>
+        <sys_updated_on>2017-12-28 06:26:34</sys_updated_on>
         <xml><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
 <j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
-    <div class="container">
-        <div class="panel-group">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#collapse1"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">Critical</span><span class="badge padiing">3</span></a>
-                    </h4>
-                    <div id="collapse1" class="panel-collapse collapse" style="padding-top: 15px;">
-                        <ul class="list-group">
-                            <li class="list-group-item"><div class="checkbox">
-                                    <label><input type="checkbox" value=""/>Issue 1</label>
-                                </div></li>
-                            <li class="list-group-item"><div class="checkbox">
-                                    <label><input type="checkbox" value=""/>Issue 2</label>
-                                </div></li>
-                            <li class="list-group-item"><div class="checkbox">
-                                    <label><input type="checkbox" value=""/>Issue 3</label>
-                                </div></li>
-                        </ul>
-                    </div>
+    <div class="row" style="padding-bottom: 15px;padding-left: 15px;">
+        <div class="col-md-2"><strong>Machine Name:</strong></div> <div class="col-md-2" id="machinename"></div>
+        <div class="col-md-2"><strong>Machine Status:</strong></div> <div class="col-md-2" id="machinestatus"></div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#criticalL1"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">Critical</span><span class="badge padiing" id="criticalCnt"></span></a>
+                </h4>
+                <div id="criticalL1" class="panel-collapse collapse" style="padding-top: 15px;">
+
                 </div>
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#collapse2"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">Major</span><span class="badge padiing">2</span></a>
-                    </h4>
-                    <div id="collapse2" class="panel-collapse collapse" style="padding-top: 15px;">
-                        <ul class="list-group">
-                            <li class="list-group-item"><div class="checkbox">
-                                    <label><input type="checkbox" value=""/>Issue 1</label>
-                                </div></li>
-                            <li class="list-group-item"><div class="checkbox">
-                                    <label><input type="checkbox" value=""/>Issue 2</label>
-                                </div></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#collapse2"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">Minor</span><span class="badge padiing">4</span></a>
-                    </h4>
-                    <div id="collapse3" class="panel-collapse collapse" style="padding-top: 15px;">
-                        <ul class="list-group">
-                            <li class="list-group-item"><div class="checkbox">
-                                    <label><input type="checkbox" value=""/>Issue 1</label>
-                                </div></li>
-                            <li class="list-group-item"><div class="checkbox">
-                                    <label><input type="checkbox" value=""/>Issue 2</label>
-                                </div></li>
-                            <li class="list-group-item"><div class="checkbox">
-                                    <label><input type="checkbox" value=""/>Issue 3</label>
-                                </div></li>
-                            <li class="list-group-item"><div class="checkbox">
-                                    <label><input type="checkbox" value=""/>Issue 4</label>
-                                </div></li>
-                        </ul>
-                    </div>
-                </div>
-
-
-
-
             </div>
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#majorL1"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">Major</span><span class="badge padiing" id="majorCnt"></span></a>
+                </h4>
+                <div id="majorL1" class="panel-collapse collapse" style="padding-top: 15px;">
+
+                </div>
+            </div>
+
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#minorL1"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">Minor</span><span class="badge padiing" id="minorCnt">4</span></a>
+                </h4>
+                <div id="minorL1" class="panel-collapse collapse" style="padding-top: 15px;">
+
+                </div>
+            </div>
+
         </div>
-        <button type="button" class="btn btn-default">Fix</button>
     </div>
 
     <script type="text/javascript">
-        document.getElementById("element.incident.u_api_response").style.display = "none";
+        if (document.getElementById("element.incident.x_179178_nanoheala_service_tag"))
+            document.getElementById("element.incident.x_179178_nanoheala_service_tag").style.display = "none";
+        var notificationResponse = null;
         document.addEventListener('DOMContentLoaded', function () {
-            var apiResponse = document.getElementById("incident.u_api_response").value;
-            var name = document.getElementById("incident.number").value;
-            document.getElementById("api_response").value = NOW.sysId;
-            document.getElementById("temp_span").innerHTML = "New Value From JS";
-
-            //Service call   
-            var xmlhttp = new XMLHttpRequest();
-
-            xmlhttp.onreadystatechange = function () {
-                if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-                    if (xmlhttp.status == 200) {
-                        document.getElementById("temp_span").innerHTML = xmlhttp.responseText;
+            //Validate Request call   
+            var validateRequest = new XMLHttpRequest();
+            var validateResponse = null;
+            validateRequest.onreadystatechange = function () {
+                if (validateRequest.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                    if (validateRequest.status == 200) {
+                        validateResponse = JSON.parse(validateRequest.responseText);
                     }
-                    else if (xmlhttp.status == 400) {
-                        alert('There was an error 400');
+                    else if (validateRequest.status == 400) {
+                        console.log('There was an error 400');
                     }
                     else {
-                        alert('something else other than 200 was returned');
+                        console.log('something else other than 200 was returned');
                     }
                 }
             };
+            validateRequest.open("POST", "https://msp.nanoheal.com/Dashboard/api/validateuser", false);
+            validateRequest.setRequestHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluQG5hbm9oZWFsLmNvbSIsInBhc3N3b3JkIjoibmFub2hlYWxAMTIzIn0.d4A2iq9VgYqgJmeLNUENBLYeQ177DnNwwaG5ef5xKrM");
+            validateRequest.send();
+            if (validateResponse.Authorization)
+            {
+                // Get Notification Data
+                var getNotificationRequest = new XMLHttpRequest();
+                console.clear();
+                getNotificationRequest.onreadystatechange = function () {
+                    if (getNotificationRequest.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                        if (getNotificationRequest.status == 200) {
+                            notificationResponse = JSON.parse(getNotificationRequest.responseText);
+                            document.getElementById("criticalCnt").innerHTML = notificationResponse.criticalcnt;
+                            document.getElementById("majorCnt").innerHTML = notificationResponse.majorcnt;
+                            document.getElementById("minorCnt").innerHTML = notificationResponse.minorcnt;
+                            document.getElementById("machinestatus").innerHTML = notificationResponse.machinestatus;
+                            console.log(getNotificationRequest.responseText);
+                            var criticalL1Cnt = notificationResponse[0].critical.length;
+                            var majorL1Cnt = notificationResponse[0].major.length;
+                            var minorL1Cnt = notificationResponse[0].minor.length;
+                            var criticalHtml = '';
+                            var majorHtml = '';
+                            var minorHtml = '';
+                            var machinenameSet = false;
+                            var type = 'critical';
+                            for (var i = 0; i != criticalL1Cnt; i++) {
+                                console.log(notificationResponse[0].critical[i].count);
+                                criticalHtml += '<div class="panel-heading"><h2 class="panel-title">' +
+                                        '<a data-toggle="collapse" href="#criticalL2Item1"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">' +
+                                        notificationResponse[0].critical[i].nocname + '</span><span class="badge padiing">' + notificationResponse[0].critical[i].count + '</span></a></h2>' +
+                                        '<div id="criticalL2Item1" class="panel-collapse collapse" style="padding-top: 15px;">' +
+                                        '<ul class="list-group">' +
+                                        '<li class="list-group-item"><div class="row">' +
+                                        '<div class="col-md-4"><strong>Notify Date</strong></div><div class="col-md-4"><strong>Event Count</strong></div><div class="col-md-4"><strong>Status</strong></div></div></li>';
+                                for (var j = 0; j != notificationResponse[0].critical[i].count; j++) {
+                                    if (j == 0) {
+                                        document.getElementById("machinename").innerHTML = notificationResponse[0].critical[i].details[j].device;
+                                        machinenameSet = true;
+                                    }
+                                    criticalHtml += '<li class="list-group-item"><div class="row">' +
+                                            '<div class="col-md-4">' + notificationResponse[0].critical[i].details[j].notifydate + '</div><div class="col-md-4">' + notificationResponse[0].critical[i].details[j].eventcount + '</div><div class="col-md-4">' + notificationResponse[0].critical[i].details[j].status + '</div></div></li>';
+                                }
+                                criticalHtml += '</ul><button type="button" onclick="fixNowAction(this,' + i + ',`' + type + '`' + ')" class="btn btn-danger" style="float: right;">Fix Now</button></div></div>';
+                            }
+                            document.getElementById("criticalL1").innerHTML = criticalHtml;
+                            type = 'major';
+                            for (var i = 0; i != majorL1Cnt; i++) {
+                                console.log(notificationResponse[0].major[i].count);
+                                majorHtml += '<div class="panel-heading"><h2 class="panel-title">' +
+                                        '<a data-toggle="collapse" href="#criticalL2Item1"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">' +
+                                        notificationResponse[0].major[i].nocname + '</span><span class="badge padiing">' + notificationResponse[0].major[i].count + '</span></a></h2>' +
+                                        '<div id="criticalL2Item1" class="panel-collapse collapse" style="padding-top: 15px;">' +
+                                        '<ul class="list-group">' +
+                                        '<li class="list-group-item"><div class="row">' +
+                                        '<div class="col-md-4"><strong>Notify Date</strong></div><div class="col-md-4"><strong>Event Count</strong></div><div class="col-md-4"><strong>Status</strong></div></div></li>';
+                                for (var j = 0; j != notificationResponse[0].major[i].count; j++) {
+                                    if (j == 0) {
+                                        if (!machinenameSet)
+                                            document.getElementById("machinename").innerHTML = notificationResponse[0].critical[i].details[j].device;
+                                    }
+                                    majorHtml += '<li class="list-group-item"><div class="row">' +
+                                            '<div class="col-md-4">' + notificationResponse[0].major[i].details[j].notifydate + '</div><div class="col-md-4">' + notificationResponse[0].major[i].details[j].eventcount + '</div><div class="col-md-4">' + notificationResponse[0].major[i].details[j].status + '</div></div></li>';
+                                }
+                                majorHtml += '</ul><button type="button" onclick="fixNowAction(' + i + ',`' + type + '`' + ')" class="btn btn-danger" style="float: right;">Fix Now</button></div></div>';
+                            }
+                            document.getElementById("majorL1").innerHTML = majorHtml;
+                            type = 'minor';
+                            for (var i = 0; i != minorL1Cnt; i++) {
+                                console.log(notificationResponse[0].minor[i].count);
+                                minorHtml += '<div class="panel-heading"><h2 class="panel-title">' +
+                                        '<a data-toggle="collapse" href="#criticalL2Item1"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">' +
+                                        notificationResponse[0].minor[i].nocname + '</span><span class="badge padiing">' + notificationResponse[0].minor[i].count + '</span></a></h2>' +
+                                        '<div id="criticalL2Item1" class="panel-collapse collapse" style="padding-top: 15px;">' +
+                                        '<ul class="list-group">' +
+                                        '<li class="list-group-item"><div class="row">' +
+                                        '<div class="col-md-4"><strong>Notify Date</strong></div><div class="col-md-4"><strong>Event Count</strong></div><div class="col-md-4"><strong>Status</strong></div></div></li>';
+                                for (var j = 0; j != notificationResponse[0].minor[i].count; j++) {
+                                    if (j == 0) {
+                                        if (!machinenameSet)
+                                            document.getElementById("machinename").innerHTML = notificationResponse[0].critical[i].details[j].device;
+                                    }
+                                    minorHtml += '<li class="list-group-item"><div class="row">' +
+                                            '<div class="col-md-4">' + notificationResponse[0].minor[i].details[j].notifydate + '</div><div class="col-md-4">' + notificationResponse[0].minor[i].details[j].eventcount + '</div><div class="col-md-4">' + notificationResponse[0].minor[i].details[j].status + '</div></div></li>';
+                                }
+                                minorHtml += '</ul><button type="button" onclick="fixNowAction(' + i + ',`' + type + '`' + ')" class="btn btn-danger" style="float: right;">Fix Now</button></div></div>';
+                            }
+                            document.getElementById("minorL1").innerHTML = minorHtml;
+                            console.log(minorHtml);
+                        }
+                        else if (getNotificationRequest.status == 400) {
+                            console.log('There was an error 400');
+                        }
+                        else {
+                            console.log('something else other than 200 was returned');
+                        }
+                    }
+                };
+                if (typeof (Storage) !== "undefined") {
+                    localStorage.setItem("authorization", validateResponse.Authorization);
+                    localStorage.setItem("authToken", validateResponse.AuthToken);
+                } else {
+                    console.log("Web Storage Not supported!!");
+                }
+                getNotificationRequest.open("GET", "https://msp.nanoheal.com/Dashboard/api/notification/getNotificationSummary", false);
+                getNotificationRequest.setRequestHeader("Authorization", "Bearer " + validateResponse.Authorization);
+                getNotificationRequest.setRequestHeader("X-API-KEY", validateResponse.AuthToken);
+                getNotificationRequest.send();
+            }
 
-            xmlhttp.open("GET", "https://jsonplaceholder.typicode.com/posts/1", true);
-            xmlhttp.send();
+            var collapseBtn = document.getElementsByClassName('collapsed');
+            for (var i = 0; i != collapseBtn.length; i++) {
+                collapseBtn[i].addEventListener("click", function () {
+                    console.log("Clicked");
+                });
+            }
+
         }, false);
+        function fixNowAction(obj, index, type) {
+            localStorage.setItem("fixqueue", JSON.stringify(notificationResponse[0][type][index]));
+            var profileRequest = new XMLHttpRequest();
+            var profileResponse = null;
+            profileRequest.onreadystatechange = function () {
+                if (profileRequest.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                    if (profileRequest.status == 200) {
+                       obj.innerHTML = "Fix Pushed";
+                       obj.classList.remove('btn-danger');
+                       obj.classList.add('btn-success');
+                       obj.disabled = true;
+                    }
+                    else if (profileRequest.status == 400) {
+                        console.log('There was an error 400');
+                    }
+                    else {
+                        console.log('something else other than 200 was returned');
+                    }
+                }
+            };
+            var authorization = localStorage.getItem("authorization");
+            var authToken = localStorage.getItem("authToken");
+            profileRequest.open("POST", "https://msp.nanoheal.com/Dashboard/api/profile/actionNotifications", false);
+            profileRequest.setRequestHeader("Authorization", "Bearer " + authorization);
+            profileRequest.setRequestHeader("X-API-KEY", authToken);
+            profileRequest.send(JSON.stringify(notificationResponse[0][type][index]));
+        }
     </script>
 </j:jelly>]]></xml>
     </sys_ui_macro>
