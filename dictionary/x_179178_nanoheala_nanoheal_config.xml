@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Nanoheal config" max_length="40" name="x_179178_nanoheala_nanoheal_config" type="collection">
+        <element label="Reporting Url" max_length="1024" name="baseurl" type="url"/>
+        <element label="Customer Number" mandatory="true" max_length="50" name="customer_number" type="string"/>
+        <element label="API Token" max_length="200" name="jwttoken" type="string"/>
+        <element label="Password" mandatory="true" max_length="50" name="password" type="password"/>
+        <element label="Username" mandatory="true" max_length="30" name="username" type="string"/>
+    </element>
+</database>

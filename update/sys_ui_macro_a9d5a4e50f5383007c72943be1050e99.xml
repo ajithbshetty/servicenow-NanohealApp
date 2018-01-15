@@ -12,7 +12,7 @@
         <sys_created_on>2017-12-27 10:14:45</sys_created_on>
         <sys_customer_update>true</sys_customer_update>
         <sys_id>a9d5a4e50f5383007c72943be1050e99</sys_id>
-        <sys_mod_count>7</sys_mod_count>
+        <sys_mod_count>55</sys_mod_count>
         <sys_name>Nanoheal Action History</sys_name>
         <sys_package display_value="NanohealApp" source="x_179178_nanoheala">50d492d00f4303007c72943be1050e1d</sys_package>
         <sys_policy/>
@@ -20,74 +20,206 @@
         <sys_scope display_value="NanohealApp">50d492d00f4303007c72943be1050e1d</sys_scope>
         <sys_update_name>sys_ui_macro_a9d5a4e50f5383007c72943be1050e99</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2017-12-28 06:30:16</sys_updated_on>
+        <sys_updated_on>2018-01-15 05:55:33</sys_updated_on>
         <xml><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
 <j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
-    <ul class="list-group">
-        <li class="list-group-item">
-            <div class="row">
-                <div class="col-md-2"><strong>SL No</strong></div>
-                <div class="col-md-2"><strong>Agent Name</strong></div>
-                <div class="col-md-2"><strong>Created Time</strong></div>
-                <div class="col-md-4"><strong>Profile Name</strong></div>
-                <div class="col-md-2"><strong>Status</strong></div>
+    <style>
+        .export {
+            width: 10%;
+            padding-top: 4px;
+            height: auto;
+            min-height: 35px;
+            background: #48b2e4;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 15px;
+            margin: 0px 25px 10px auto;
+        }
+        .export a{
+            color: #ffff;
+            text-decoration: none;
+        }
+        .historylist{
+            max-height: 300px;
+            overflow-y: scroll;
+        }
+        .glyphicon {
+            margin-right: 5px;
+        }
+    </style>
+    <div id="errormessage3" style="display: none;margin-left: 40px;">Please Configure nanoheal Application</div>
+    <div id="actionHistoryTab" style="display: none;">
+        <div class="container">
+        <div class="row topheader" style="width: 100%;">
+            <div class="col-md-2"><strong>Machine Name:</strong></div>
+				<div class="col-md-2" id="machinename4"></div>
+				<div class="col-md-2"><strong>Machine Status:</strong></div>
+				<div class="col-md-2" id="machinestatus4"></div>
+            <div class="export" localized="" style="display: block;float: right">
+                <a href="javascript:;" onclick="getActionHistory();">
+                    <span class="glyphicon glyphicon-refresh"></span> Refresh
+                </a>
             </div>
-        </li>
-        <span id="actionList">
-            
-        </span>
-    </ul>
-    
+            <div id="maximize11" class="export" localized="" style="display: block;float: right">
+                <a href="javascript:;" onclick="exportActionHistory();">Export</a>
+            </div>
+        </div>
+        <div class="historylist">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-2"><strong>SL No</strong></div>
+                        <div class="col-md-2"><strong>Agent Name</strong></div>
+                        <div class="col-md-2"><strong>Created Time</strong></div>
+                        <div class="col-md-4"><strong>Profile Name</strong></div>
+                        <div class="col-md-2"><strong>Status</strong></div>
+                    </div>
+                </li>
+                <span id="actionList">
+
+                </span>
+            </ul>
+        </div>
+    </div>
+    </div>
+    <div id="errorTab2" style="display: none;">
+        <h5 style="margin-left: 15px;margin-bottom: 15px;">No Service Tag found. Please enter Service Tag..</h5>
+        <div>
+            <div class="col-sm-4 col-md-4">
+                <input type="text" class="form-control" id="servicetag2" placeholder="ServiceTag"/><input type="button" class="btn btn-default servicetagBtn" onclick="javascript:getActionHistory();" value="Submit" />
+            </div>
+        </div>
+    </div>
+
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
-            var historyRequest = new XMLHttpRequest();
-            var historyResponse = null;
-            historyRequest.onreadystatechange = function () {
-                if (historyRequest.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-                    var actionHistoryHTML = "";
-                    if (historyRequest.status == 200) {
-                        historyResponse = JSON.parse(historyRequest.responseText);
-                        for(var i=0;i!=historyResponse.length;i++){
-                            var style = "";
-                            switch(historyResponse[i].JobStatus){
-                                case 'Completed':
-                                    style = "color: #008000;";
-                                    break;
-                                case 'Failed':
-                                    style = "color: #FF0000;";
-                                    break;
-                                case 'Pending':
-                                    style = "color: #FFA500;";
-                                    break;
+			try{
+			  if (jwtToken == "") throw "API Token Not set"; 
+				if (baseUrl == "") throw "API Url Not set"; 
+				 getActionHistory();
+			}
+			catch(e) {
+				console.log(e);
+				document.getElementById("errormessage3").style.display = "block";
+			}
+        });
+
+        // Getting Action history from API
+        function getActionHistory() {
+            var authorization, authToken = "";
+            if (existingsession = checkSessionValidity()) {
+                authorization = existingsession.Authorization;
+                authToken =  existingsession.AuthToken;
+            }
+            else {
+                var newsession = createNewSession();
+                authorization = newsession.Authorization;
+                authToken =  newsession.AuthToken;
+            }
+            if (document.getElementById('incident.u_service_tag') != 'undefined') {
+                serviceTag = document.getElementById('incident.u_service_tag').value;
+            }
+            if (serviceTag == '') {
+                serviceTag = document.getElementById('servicetag2').value;
+            }
+            if (serviceTag != "") {
+                document.getElementById("errormessage3").style.display = "none";
+                document.getElementById("errorTab2").style.display = "none";
+                document.getElementById("actionHistoryTab").style.display = "block";
+                var historyRequest = new XMLHttpRequest();
+                var historyResponse = null;
+                historyRequest.onreadystatechange = function () {
+                    if (historyRequest.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                        var actionHistoryHTML = "";
+                        if (historyRequest.status == 200) {
+                            historyResponse = JSON.parse(historyRequest.responseText);
+                            for (var i = 0; i != historyResponse.length; i++) {
+                                var style = "";
+                                switch (historyResponse[i].JobStatus) {
+                                    case 'Completed':
+                                        style = "color: #008000;";
+                                        break;
+                                    case 'Failed':
+                                        style = "color: #FF0000;";
+                                        break;
+                                    case 'Pending':
+                                        style = "color: #FFA500;";
+                                        break;
+                                }
+                                actionHistoryHTML += '<li class="list-group-item"><div class="row">' +
+                                        '<div class="col-md-2">' + (i + 1) + '</div>' +
+                                        '<div class="col-md-2">' + historyResponse[i].AgentName + '</div>' +
+                                        '<div class="col-md-2">' + historyResponse[i].JobCreatedTime + '</div>' +
+                                        '<div class="col-md-4">' + historyResponse[i].ProfileName + '</div>' +
+                                        '<div class="col-md-2" style="' + style + '">' + historyResponse[i].JobStatus + '</div>' +
+                                        '</div></li>';
                             }
-                            actionHistoryHTML += '<li class="list-group-item"><div class="row">'+
-                                                 '<div class="col-md-2">'+(i+1)+'</div>'+
-                                                 '<div class="col-md-2">'+historyResponse[i].AgentName+'</div>'+
-                                                 '<div class="col-md-2">'+historyResponse[i].JobCreatedTime+'</div>'+
-                                                 '<div class="col-md-4">'+historyResponse[i].ProfileName+'</div>'+
-                                                 '<div class="col-md-2" style="'+style+'">'+historyResponse[i].JobStatus+'</div>'+
-                                                 '</div></li>';
+                            document.getElementById('actionList').innerHTML = actionHistoryHTML;
+                            console.log("Historyyyyyyyyyyy");
+                            console.log(historyResponse);
                         }
-                        document.getElementById('actionList').innerHTML = actionHistoryHTML;
-                        console.log("Historyyyyyyyyyyy");
-                        console.log(historyResponse);
+                        //document.getElementById('clickList').innerHTML = toolboxlistHTML;
                     }
-                    //document.getElementById('clickList').innerHTML = toolboxlistHTML;
+                    else if (historyRequest.status == 400) {
+                        console.log('There was an error 400');
+                    }
+                    else {
+                        console.log('something else other than 200 was returned');
+                    }
                 }
-                else if (historyRequest.status == 400) {
-                    console.log('There was an error 400');
-                }
-                else {
-                    console.log('something else other than 200 was returned');
+                try {
+                    if(authorization == "") throw "Authorization String Not set In Export Machine History Request!";
+                    if(authToken == "") throw "Authtoken String Not set In Export Machine History Request!";
+                    if(serviceTag == "") throw "Servicetag Not set In Export Machine History Request!";
+                    historyRequest.open("POST", baseUrl+"/api/profile/machineHistory");
+                    historyRequest.setRequestHeader("Authorization", "Bearer " + authorization);
+                    historyRequest.setRequestHeader("X-API-KEY", authToken);
+                    historyRequest.send(JSON.stringify({"machine": serviceTag}));
+                } catch (error) {
+                    console.log(error);
                 }
             }
-            var authorization = localStorage.getItem("authorization");
-            var authToken = localStorage.getItem("authToken");
-            historyRequest.open("POST", "https://msp.nanoheal.com/Dashboard/api/profile/machineHistory", false);
-            historyRequest.setRequestHeader("Authorization", "Bearer " + authorization);
-            historyRequest.setRequestHeader("X-API-KEY", authToken);
-            historyRequest.send(JSON.stringify({"machine": "HFND100136"}));
-        });
+            else {
+                document.getElementById("errorTab2").style.display = "block";
+                document.getElementById("actionHistoryTab").style.display = "none";
+            }
+        }
+
+        function exportActionHistory() {
+            var authorization, authToken = "";
+            if (existingsession = checkSessionValidity()) {
+                authorization = existingsession.Authorization;
+                authToken =  existingsession.AuthToken;
+            }
+            else {
+                var newsession = createNewSession();
+                authorization = newsession.Authorization;
+                authToken =  newsession.AuthToken;
+            }
+            var historyRequest = new XMLHttpRequest();
+            historyRequest.onreadystatechange = function () {
+                if (historyRequest.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                    if (historyRequest.status == 200) {
+                        var hiddenElement = document.createElement('a');
+                        hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(historyRequest.responseText);
+                        hiddenElement.target = '_blank';
+                        hiddenElement.download = 'actionhistory.csv';
+                        hiddenElement.click();
+                    }
+                }
+            }
+            try {
+                if(authorization == "") throw "Authorization String Not set In Export Machine History Request!";
+                if(authToken == "") throw "Authtoken String Not set In Export Machine History Request!";
+                if(serviceTag == "") throw "Servicetag Not set In Export Machine History Request!";
+                historyRequest.open("POST", baseUrl+"/api/profile/exportmachineHistory");
+                historyRequest.setRequestHeader("Authorization", "Bearer " + authorization);
+                historyRequest.setRequestHeader("X-API-KEY", authToken);
+                historyRequest.send(JSON.stringify({"machine": serviceTag}));
+            } catch (error) {
+                console.log(error);
+            }
+        }
     </script>
 </j:jelly>]]></xml>
     </sys_ui_macro>

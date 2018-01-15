@@ -3,23 +3,23 @@
     <sys_ui_view action="INSERT_OR_UPDATE">
         <group/>
         <hidden>false</hidden>
-        <name>nanoheal</name>
+        <name>cmdb_dashboard</name>
         <roles/>
         <sys_class_name>sys_ui_view</sys_class_name>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2017-12-11 11:45:55</sys_created_on>
-        <sys_customer_update>false</sys_customer_update>
-        <sys_id>ee616a580f4303007c72943be1050ef9</sys_id>
+        <sys_created_on>2018-01-05 06:59:28</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>d69f8a500fef07007c72943be1050e2a</sys_id>
         <sys_mod_count>0</sys_mod_count>
-        <sys_name>Nanoheal</sys_name>
+        <sys_name>Cmdb_dashboard</sys_name>
         <sys_package display_value="NanohealApp" source="x_179178_nanoheala">50d492d00f4303007c72943be1050e1d</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="NanohealApp">50d492d00f4303007c72943be1050e1d</sys_scope>
-        <sys_update_name>sys_ui_view_ee616a580f4303007c72943be1050ef9</sys_update_name>
+        <sys_update_name>sys_ui_view_d69f8a500fef07007c72943be1050e2a</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2017-12-11 11:45:55</sys_updated_on>
-        <title>Nanoheal</title>
+        <sys_updated_on>2018-01-05 06:59:28</sys_updated_on>
+        <title>Cmdb_dashboard</title>
         <user/>
     </sys_ui_view>
 </record_update>

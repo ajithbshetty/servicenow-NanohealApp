@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_macro">
+    <sys_ui_macro action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category>general</category>
+        <description>This UI Macro is user to configure Nanoheal Application</description>
+        <media_type/>
+        <name>Configure Nanoheal</name>
+        <scoped_name>x_179178_nanoheala_Configure Nanoheal</scoped_name>
+        <sys_class_name>sys_ui_macro</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-01-12 12:02:14</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>b3c7db260f67c7007c72943be1050e99</sys_id>
+        <sys_mod_count>14</sys_mod_count>
+        <sys_name>Configure Nanoheal</sys_name>
+        <sys_package display_value="NanohealApp" source="x_179178_nanoheala">50d492d00f4303007c72943be1050e1d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="NanohealApp">50d492d00f4303007c72943be1050e1d</sys_scope>
+        <sys_update_name>sys_ui_macro_b3c7db260f67c7007c72943be1050e99</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-01-12 21:06:15</sys_updated_on>
+        <xml><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+<style>
+    .moreinfo {
+			width: 10%;
+			padding-top: 4px;
+			height: auto;
+			min-height: 35px;
+			background: #48b2e4;
+			color: #ffff;
+			border-radius: 5px;
+			text-align: center;
+			font-size: 15px;
+			margin-left: 10%;
+			display: block;
+		}
+		
+    .moreinfo a {
+        color: #ffff;
+        text-decoration: none;
+    }
+</style>
+<div class="container">
+    <div class="moreinfo">
+			<a href="javascript:refreshConfig()">
+				Refresh
+			</a>
+		</div>
+</div>
+<hr/>
+<script type="text/javascript">
+function refreshConfig(){
+    var reportingUrlRequest = new XMLHttpRequest();
+    var customernum = document.getElementById("x_179178_nanoheala_nanoheal_config.customer_number").value;
+    var reportingUrl = "";
+    reportingUrlRequest.onreadystatechange = function () {
+        if (reportingUrlRequest.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+            if (reportingUrlRequest.status == 200) {
+                reportingUrl = reportingUrlRequest.responseText;
+                console.log(reportingUrl);
+            }
+        }
+    }
+    try {
+        if(customernum == "") throw "Customer number is not set";
+        reportingUrlRequest.open("GET", "https://provision.nanoheal.com/provision/getCRMReportURL.php?custid="+customernum);
+        reportingUrlRequest.send();
+    } catch (error) {
+        console.log(error);
+    }
+    var validateCustomerRequest = new XMLHttpRequest();
+    var username = document.getElementById("x_179178_nanoheala_nanoheal_config.username").value;;
+    var password = document.getElementById("x_179178_nanoheala_nanoheal_config.password").value;;
+    var validateCustomerResponse = "";
+    var jwtToken = "";
+    validateCustomerRequest.onreadystatechange = function () {
+        if (validateCustomerRequest.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+            if (validateCustomerRequest.status == 200) {
+                validateCustomerResponse = JSON.parse(validateCustomerRequest.responseText);
+                if(validateCustomerResponse.status == "Success"){
+                    jwtToken = validateCustomerResponse.Authorization;
+                    var rec = new GlideRecord('x_179178_nanoheala_nanoheal_config');
+                    rec.addQuery('customer_number', customernum);
+                    rec.query();
+                    while (rec.next()) { 
+                        console.log("Updating record customer num "+customernum);
+                        rec.baseurl = reportingUrl;
+                        rec.jwttoken = jwtToken;
+                        rec.update();
+                        console.log("Updated");
+                    }
+                }
+            }
+        }
+    }
+    try {
+        if(username == "") throw "Username is not set";
+        if(password == "") throw "Password is not set";
+        validateCustomerRequest.open("POST", "https://msp.nanoheal.com/Dashboard/api/validateCRMDetails");
+        validateCustomerRequest.send(JSON.stringify({"username":username,"userpass":password}));
+    } catch (error) {
+        console.log(error);
+    }
+    
+}
+</script>
+</j:jelly>]]></xml>
+    </sys_ui_macro>
+</record_update>

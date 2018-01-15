@@ -289,11 +289,11 @@
             <sys_class_name>sys_ui_section</sys_class_name>
             <sys_created_by>admin</sys_created_by>
             <sys_created_on>2017-12-11 11:45:55</sys_created_on>
-            <sys_customer_update>true</sys_customer_update>
+            <sys_customer_update>false</sys_customer_update>
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
             <sys_id>aa616a580f4303007c72943be1050efa</sys_id>
-            <sys_mod_count>0</sys_mod_count>
+            <sys_mod_count>1</sys_mod_count>
             <sys_name>incident</sys_name>
             <sys_overrides/>
             <sys_package display_value="NanohealApp" source="x_179178_nanoheala">50d492d00f4303007c72943be1050e1d</sys_package>
@@ -302,7 +302,7 @@
             <sys_scope display_value="NanohealApp">50d492d00f4303007c72943be1050e1d</sys_scope>
             <sys_update_name>sys_ui_section_aa616a580f4303007c72943be1050efa</sys_update_name>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-12-11 11:45:55</sys_updated_on>
+            <sys_updated_on>2018-01-11 08:40:55</sys_updated_on>
             <sys_user/>
             <title>false</title>
             <view display_value="Nanoheal" name="nanoheal">ee616a580f4303007c72943be1050ef9</view>

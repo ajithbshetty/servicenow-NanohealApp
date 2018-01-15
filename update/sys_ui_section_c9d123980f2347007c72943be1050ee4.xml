@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update>
-    <sys_ui_section caption="Basic Info" section_id="45dd9ac50fdb43007c72943be1050eb1" sys_domain="global" table="incident" version="3" view="">
+    <sys_ui_section caption="Interactive" section_id="c9d123980f2347007c72943be1050ee4" sys_domain="global" table="incident" version="3" view="">
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>x_179178_nanoheala_Nanoheal basic info.xml</element>
+            <element>x_179178_nanoheala_Nanoheal Interactive.xml</element>
             <position>0</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-01-10 09:51:46</sys_created_on>
-            <sys_id>b2f6acce0f6b87007c72943be1050ef0</sys_id>
+            <sys_created_on>2018-01-10 09:36:12</sys_created_on>
+            <sys_id>fa63ac8e0f6b87007c72943be1050e3d</sys_id>
             <sys_mod_count>0</sys_mod_count>
-            <sys_ui_formatter display_value="Nanoheal Basic Info">e816a8ce0f6b87007c72943be1050e8f</sys_ui_formatter>
-            <sys_ui_section caption="Basic Info" display_value="Basic Info" name="incident" sys_domain="global" view="Default view">45dd9ac50fdb43007c72943be1050eb1</sys_ui_section>
+            <sys_ui_formatter display_value="Nanoheal Interactive">cad328650f5383007c72943be1050e1f</sys_ui_formatter>
+            <sys_ui_section caption="Interactive" display_value="Interactive" name="incident" sys_domain="global" view="Default view">c9d123980f2347007c72943be1050ee4</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-01-10 09:51:46</sys_updated_on>
+            <sys_updated_on>2018-01-10 09:36:12</sys_updated_on>
             <sys_user/>
             <type>formatter</type>
         </sys_ui_element>
         <sys_ui_section action="INSERT_OR_UPDATE">
-            <caption>Basic Info</caption>
+            <caption>Interactive</caption>
             <header>false</header>
             <name>incident</name>
             <roles/>
             <sys_class_name>sys_ui_section</sys_class_name>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-12-26 05:41:23</sys_created_on>
+            <sys_created_on>2018-01-05 12:58:44</sys_created_on>
             <sys_customer_update>true</sys_customer_update>
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
-            <sys_id>45dd9ac50fdb43007c72943be1050eb1</sys_id>
+            <sys_id>c9d123980f2347007c72943be1050ee4</sys_id>
             <sys_mod_count>2</sys_mod_count>
-            <sys_name>Basic Info</sys_name>
+            <sys_name>Interactive</sys_name>
             <sys_overrides/>
             <sys_package display_value="NanohealApp" source="x_179178_nanoheala">50d492d00f4303007c72943be1050e1d</sys_package>
             <sys_policy/>
             <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
             <sys_scope display_value="NanohealApp">50d492d00f4303007c72943be1050e1d</sys_scope>
-            <sys_update_name>sys_ui_section_45dd9ac50fdb43007c72943be1050eb1</sys_update_name>
+            <sys_update_name>sys_ui_section_c9d123980f2347007c72943be1050ee4</sys_update_name>
             <sys_updated_by>admin</sys_updated_by>
             <sys_updated_on>2018-01-10 09:36:11</sys_updated_on>
             <sys_user/>

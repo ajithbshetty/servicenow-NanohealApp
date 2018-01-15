@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_macro">
+    <sys_ui_macro action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category>general</category>
+        <description>This tab gives Nanoheal Provision info</description>
+        <media_type/>
+        <name>Nanoheal Provision</name>
+        <scoped_name>x_179178_nanoheala_Nanoheal Provision</scoped_name>
+        <sys_class_name>sys_ui_macro</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-01-10 09:49:41</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>5856e8ce0f6b87007c72943be1050ebc</sys_id>
+        <sys_mod_count>7</sys_mod_count>
+        <sys_name>Nanoheal Provision</sys_name>
+        <sys_package display_value="NanohealApp" source="x_179178_nanoheala">50d492d00f4303007c72943be1050e1d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="NanohealApp">50d492d00f4303007c72943be1050e1d</sys_scope>
+        <sys_update_name>sys_ui_macro_5856e8ce0f6b87007c72943be1050ebc</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-01-15 07:44:25</sys_updated_on>
+        <xml><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	<div class="container">
+        <iframe id="provisioniframe" style="width: 100%;height: 500px;">Your browser doesn't support iframe</iframe>
+    </div>
+	<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+			try{
+			  if (jwtToken == "") throw "API Token Not set"; 
+				if (baseUrl == "") throw "API Url Not set"; 
+				 getProvision();
+			}
+			catch(e) {
+				console.log(e);
+				document.getElementById("errormessage3").style.display = "block";
+			}
+        });
+
+        // Getting Action history from API
+        function getProvision() {
+            var authorization, authToken = "";
+            if (existingsession = checkSessionValidity()) {
+                authorization = existingsession.Authorization;
+                authToken =  existingsession.AuthToken;
+            }
+            else {
+                var newsession = createNewSession();
+                authorization = newsession.Authorization;
+                authToken =  newsession.AuthToken;
+            }
+            if (document.getElementById('incident.u_service_tag') != 'undefined') {
+                serviceTag = document.getElementById('incident.u_service_tag').value;
+            }
+            if (serviceTag == '') {
+                serviceTag = document.getElementById('servicetag2').value;
+            }
+            if (serviceTag != "") {
+                document.getElementById("errormessage3").style.display = "none";
+                document.getElementById("errorTab2").style.display = "none";
+                document.getElementById("actionHistoryTab").style.display = "block";
+                var provisionRequest = new XMLHttpRequest();
+                var provisionResponse = null;
+                provisionRequest.onreadystatechange = function () {
+                    if (provisionRequest.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                        var actionHistoryHTML = "";
+                        if (provisionRequest.status == 200) {
+                            console.log(provisionRequest.responseText);
+                            var doc = document.getElementById('provisioniframe').contentWindow.document;
+                            doc.open();
+                            doc.write(provisionRequest.responseText);
+                            doc.close();
+                        }
+                        //document.getElementById('clickList').innerHTML = toolboxlistHTML;
+                    }
+                    else if (provisionRequest.status == 400) {
+                        console.log('There was an error 400');
+                    }
+                    else {
+                        console.log('something else other than 200 was returned');
+                    }
+                }
+                try {
+                    if(authorization == "") throw "Authorization String Not set In Provision Request!";
+                    if(authToken == "") throw "Authtoken String Not set In Provision Request!";
+                    if(serviceTag == "") throw "Servicetag Not set In Provision Request!";
+                    provisionRequest.open("POST", baseUrl+"/api/profile/crmprovision");
+                    provisionRequest.setRequestHeader("Authorization", "Bearer " + authorization);
+                    provisionRequest.setRequestHeader("X-API-KEY", authToken);
+                    provisionRequest.send(JSON.stringify({"machine": serviceTag}));
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+            else {
+                // document.getElementById("errorTab2").style.display = "block";
+                // document.getElementById("actionHistoryTab").style.display = "none";
+            }
+        }
+</script>
+</j:jelly>]]></xml>
+    </sys_ui_macro>
+</record_update>

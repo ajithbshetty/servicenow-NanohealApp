@@ -12,7 +12,7 @@
         <sys_created_on>2017-12-11 10:56:19</sys_created_on>
         <sys_customer_update>true</sys_customer_update>
         <sys_id>7e75d2d40f4303007c72943be1050e6b</sys_id>
-        <sys_mod_count>92</sys_mod_count>
+        <sys_mod_count>256</sys_mod_count>
         <sys_name>Nanoheal Notification</sys_name>
         <sys_package display_value="NanohealApp" source="x_179178_nanoheala">50d492d00f4303007c72943be1050e1d</sys_package>
         <sys_policy/>
@@ -20,74 +20,115 @@
         <sys_scope display_value="NanohealApp">50d492d00f4303007c72943be1050e1d</sys_scope>
         <sys_update_name>sys_ui_macro_7e75d2d40f4303007c72943be1050e6b</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2017-12-28 06:26:34</sys_updated_on>
+        <sys_updated_on>2018-01-15 05:54:05</sys_updated_on>
         <xml><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
 <j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
-    <div class="row" style="padding-bottom: 15px;padding-left: 15px;">
-        <div class="col-md-2"><strong>Machine Name:</strong></div> <div class="col-md-2" id="machinename"></div>
-        <div class="col-md-2"><strong>Machine Status:</strong></div> <div class="col-md-2" id="machinestatus"></div>
-        <div class="col-md-4"></div>
+    <style>
+        .servicetagBtn{
+            position: absolute;
+            top: 0px;
+            float: right;
+            left: 100%;
+        }
+    </style>
+    <div id="errormessage1" style="display: none;margin-left: 40px;">Please Configure nanoheal Application</div>
+    <div id="notificationTab" style="display: none;">
+        <div class="container">
+        <div class="row topheader">
+            <div class="col-md-2"><strong>Machine Name:</strong></div> <div class="col-md-2" id="machinename2"></div>
+            <div class="col-md-2"><strong>Machine Status:</strong></div> <div class="col-md-2" id="machinestatus2"></div>
+            <div>
+                <div class="export" localized="" style="display: block;float: right">
+                    <a href="javascript:;" onclick="getNotificationData();">
+                        <span class="glyphicon glyphicon-refresh"></span> Refresh
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#criticalL1" onclick="changeIcon(this)"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">Critical</span><span class="badge padiing" id="criticalCnt"></span></a>
+                    </h4>
+                    <div id="criticalL1" class="panel-collapse collapse" style="padding-top: 15px;">
+
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#majorL1" onclick="changeIcon(this)"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">Major</span><span class="badge padiing" id="majorCnt"></span></a>
+                    </h4>
+                    <div id="majorL1" class="panel-collapse collapse" style="padding-top: 15px;">
+
+                    </div>
+                </div>
+
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#minorL1" onclick="changeIcon(this)"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">Minor</span><span class="badge padiing" id="minorCnt"></span></a>
+                    </h4>
+                    <div id="minorL1" class="panel-collapse collapse" style="padding-top: 15px;">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </div>
     </div>
-    <div class="panel-group">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#criticalL1"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">Critical</span><span class="badge padiing" id="criticalCnt"></span></a>
-                </h4>
-                <div id="criticalL1" class="panel-collapse collapse" style="padding-top: 15px;">
-
-                </div>
+    <div id="errorTab" style="display: none;">
+        <h5 style="margin-left: 15px;margin-bottom: 15px;">No Service Tag found. Please enter Service Tag..</h5>
+        <div>
+            <div class="col-sm-4 col-md-4">
+                <input type="text" class="form-control" id="servicetag" placeholder="ServiceTag"/><input type="button" class="btn btn-default servicetagBtn" onclick="javascript:validateRequest();" value="Submit" />
             </div>
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#majorL1"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">Major</span><span class="badge padiing" id="majorCnt"></span></a>
-                </h4>
-                <div id="majorL1" class="panel-collapse collapse" style="padding-top: 15px;">
-
-                </div>
-            </div>
-
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#minorL1"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">Minor</span><span class="badge padiing" id="minorCnt">4</span></a>
-                </h4>
-                <div id="minorL1" class="panel-collapse collapse" style="padding-top: 15px;">
-
-                </div>
-            </div>
-
         </div>
     </div>
 
     <script type="text/javascript">
         if (document.getElementById("element.incident.x_179178_nanoheala_service_tag"))
             document.getElementById("element.incident.x_179178_nanoheala_service_tag").style.display = "none";
-        var notificationResponse = null;
+        var currentntNotificationData = "";
+        var nocName = "";
+        var nid = "";
         document.addEventListener('DOMContentLoaded', function () {
-            //Validate Request call   
-            var validateRequest = new XMLHttpRequest();
-            var validateResponse = null;
-            validateRequest.onreadystatechange = function () {
-                if (validateRequest.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-                    if (validateRequest.status == 200) {
-                        validateResponse = JSON.parse(validateRequest.responseText);
-                    }
-                    else if (validateRequest.status == 400) {
-                        console.log('There was an error 400');
-                    }
-                    else {
-                        console.log('something else other than 200 was returned');
-                    }
-                }
-            };
-            validateRequest.open("POST", "https://msp.nanoheal.com/Dashboard/api/validateuser", false);
-            validateRequest.setRequestHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluQG5hbm9oZWFsLmNvbSIsInBhc3N3b3JkIjoibmFub2hlYWxAMTIzIn0.d4A2iq9VgYqgJmeLNUENBLYeQ177DnNwwaG5ef5xKrM");
-            validateRequest.send();
-            if (validateResponse.Authorization)
-            {
+			try{
+			  if (jwtToken == "") throw "API Token Not set"; 
+              if (baseUrl == "") throw "API Url Not set"; 
+              getNotificationData();
+			}
+			catch(e) {
+				console.log(e);
+				document.getElementById("errormessage1").style.display = "block";
+			}
+        }, false);
+
+
+        // Getting Notification data from Nanoheal API
+        function getNotificationData() {
+            var authorization, authToken = "";
+            if (existingsession = checkSessionValidity()) {
+                authorization = existingsession.Authorization;
+                authToken =  existingsession.AuthToken;
+            }
+            else {
+                var newsession = createNewSession();
+                authorization = newsession.Authorization;
+                authToken =  newsession.AuthToken;
+            }
+            if (document.getElementById('incident.u_service_tag') != 'undefined') {
+                serviceTag = document.getElementById('incident.u_service_tag').value;
+            }
+            if (serviceTag == '') {
+                serviceTag = document.getElementById('servicetag').value;
+            }
+            if (serviceTag != "") {
+                document.getElementById("errormessage1").style.display = "none";
+                document.getElementById("errorTab").style.display = "none";
+                document.getElementById("notificationTab").style.display = "block";
                 // Get Notification Data
                 var getNotificationRequest = new XMLHttpRequest();
-                console.clear();
                 getNotificationRequest.onreadystatechange = function () {
                     if (getNotificationRequest.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
                         if (getNotificationRequest.status == 200) {
@@ -95,77 +136,69 @@
                             document.getElementById("criticalCnt").innerHTML = notificationResponse.criticalcnt;
                             document.getElementById("majorCnt").innerHTML = notificationResponse.majorcnt;
                             document.getElementById("minorCnt").innerHTML = notificationResponse.minorcnt;
-                            document.getElementById("machinestatus").innerHTML = notificationResponse.machinestatus;
-                            console.log(getNotificationRequest.responseText);
-                            var criticalL1Cnt = notificationResponse[0].critical.length;
-                            var majorL1Cnt = notificationResponse[0].major.length;
-                            var minorL1Cnt = notificationResponse[0].minor.length;
+                            document.getElementById("machinestatus1").innerHTML = notificationResponse.machinestatus;
+                            document.getElementById("machinename1").innerHTML = notificationResponse.machinename;
+                            document.getElementById("machinestatus2").innerHTML = notificationResponse.machinestatus;
+                            document.getElementById("machinename2").innerHTML = notificationResponse.machinename;
+                            document.getElementById("machinestatus3").innerHTML = notificationResponse.machinestatus;
+                            document.getElementById("machinename3").innerHTML = notificationResponse.machinename;
+                            document.getElementById("machinestatus4").innerHTML = notificationResponse.machinestatus;
+                            document.getElementById("machinename4").innerHTML = notificationResponse.machinename;
                             var criticalHtml = '';
                             var majorHtml = '';
                             var minorHtml = '';
-                            var machinenameSet = false;
-                            var type = 'critical';
-                            for (var i = 0; i != criticalL1Cnt; i++) {
-                                console.log(notificationResponse[0].critical[i].count);
+                            for (var i = 0; i != notificationResponse.criticalcnt; i++) {
                                 criticalHtml += '<div class="panel-heading"><h2 class="panel-title">' +
-                                        '<a data-toggle="collapse" href="#criticalL2Item1"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">' +
+                                        '<a data-toggle="collapse" href="#criticalL2Item' + i + '" onclick="changeIcon(this)"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">' +
                                         notificationResponse[0].critical[i].nocname + '</span><span class="badge padiing">' + notificationResponse[0].critical[i].count + '</span></a></h2>' +
-                                        '<div id="criticalL2Item1" class="panel-collapse collapse" style="padding-top: 15px;">' +
+                                        '<div id="criticalL2Item' + i + '" class="panel-collapse collapse" style="padding-top: 15px;">' +
                                         '<ul class="list-group">' +
                                         '<li class="list-group-item"><div class="row">' +
                                         '<div class="col-md-4"><strong>Notify Date</strong></div><div class="col-md-4"><strong>Event Count</strong></div><div class="col-md-4"><strong>Status</strong></div></div></li>';
                                 for (var j = 0; j != notificationResponse[0].critical[i].count; j++) {
-                                    if (j == 0) {
-                                        document.getElementById("machinename").innerHTML = notificationResponse[0].critical[i].details[j].device;
-                                        machinenameSet = true;
-                                    }
                                     criticalHtml += '<li class="list-group-item"><div class="row">' +
                                             '<div class="col-md-4">' + notificationResponse[0].critical[i].details[j].notifydate + '</div><div class="col-md-4">' + notificationResponse[0].critical[i].details[j].eventcount + '</div><div class="col-md-4">' + notificationResponse[0].critical[i].details[j].status + '</div></div></li>';
                                 }
-                                criticalHtml += '</ul><button type="button" onclick="fixNowAction(this,' + i + ',`' + type + '`' + ')" class="btn btn-danger" style="float: right;">Fix Now</button></div></div>';
+                                criticalHtml += '</ul><button type="button" onclick="getProfileTiles(' + notificationResponse[0].critical[i].nid + ',`' + notificationResponse[0].critical[i].nocname + '`,`critical`,' + i + ')" class="btn btn-danger" style="float: right;">Fix Now</button></div></div>';
                             }
+                            if (notificationResponse.criticalcnt == 0)
+                                criticalHtml += '<span style="margin-left: 3%;">No Critical Notification Found.!</span>';
                             document.getElementById("criticalL1").innerHTML = criticalHtml;
-                            type = 'major';
-                            for (var i = 0; i != majorL1Cnt; i++) {
+                            for (var i = 0; i != notificationResponse.majorcnt; i++) {
                                 console.log(notificationResponse[0].major[i].count);
                                 majorHtml += '<div class="panel-heading"><h2 class="panel-title">' +
-                                        '<a data-toggle="collapse" href="#criticalL2Item1"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">' +
+                                        '<a data-toggle="collapse" href="#majorL2Item' + i + '" onclick="changeIcon(this)"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">' +
                                         notificationResponse[0].major[i].nocname + '</span><span class="badge padiing">' + notificationResponse[0].major[i].count + '</span></a></h2>' +
-                                        '<div id="criticalL2Item1" class="panel-collapse collapse" style="padding-top: 15px;">' +
+                                        '<div id="majorL2Item' + i + '" class="panel-collapse collapse" style="padding-top: 15px;">' +
                                         '<ul class="list-group">' +
                                         '<li class="list-group-item"><div class="row">' +
                                         '<div class="col-md-4"><strong>Notify Date</strong></div><div class="col-md-4"><strong>Event Count</strong></div><div class="col-md-4"><strong>Status</strong></div></div></li>';
                                 for (var j = 0; j != notificationResponse[0].major[i].count; j++) {
-                                    if (j == 0) {
-                                        if (!machinenameSet)
-                                            document.getElementById("machinename").innerHTML = notificationResponse[0].critical[i].details[j].device;
-                                    }
                                     majorHtml += '<li class="list-group-item"><div class="row">' +
                                             '<div class="col-md-4">' + notificationResponse[0].major[i].details[j].notifydate + '</div><div class="col-md-4">' + notificationResponse[0].major[i].details[j].eventcount + '</div><div class="col-md-4">' + notificationResponse[0].major[i].details[j].status + '</div></div></li>';
                                 }
-                                majorHtml += '</ul><button type="button" onclick="fixNowAction(' + i + ',`' + type + '`' + ')" class="btn btn-danger" style="float: right;">Fix Now</button></div></div>';
+                                majorHtml += '</ul><button type="button" onclick="getProfileTiles(' + notificationResponse[0].major[i].nid + ',`' + notificationResponse[0].major[i].nocname + '`,`major`,' + i + ')" class="btn btn-danger" style="float: right;">Fix Now</button></div></div>';
                             }
+                            if (notificationResponse.majorcnt == 0)
+                                majorHtml += '<span style="margin-left: 3%;">No Major Notification Found.!</span>';
                             document.getElementById("majorL1").innerHTML = majorHtml;
-                            type = 'minor';
-                            for (var i = 0; i != minorL1Cnt; i++) {
+                            for (var i = 0; i != notificationResponse.minorcnt; i++) {
                                 console.log(notificationResponse[0].minor[i].count);
                                 minorHtml += '<div class="panel-heading"><h2 class="panel-title">' +
-                                        '<a data-toggle="collapse" href="#criticalL2Item1"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">' +
+                                        '<a data-toggle="collapse" href="#minorL2Item' + i + '" onclick="changeIcon(this)"><i class="glyphicon glyphicon-plus"></i><span style="padding:10px;">' +
                                         notificationResponse[0].minor[i].nocname + '</span><span class="badge padiing">' + notificationResponse[0].minor[i].count + '</span></a></h2>' +
-                                        '<div id="criticalL2Item1" class="panel-collapse collapse" style="padding-top: 15px;">' +
+                                        '<div id="minorL2Item' + i + '" class="panel-collapse collapse" style="padding-top: 15px;">' +
                                         '<ul class="list-group">' +
                                         '<li class="list-group-item"><div class="row">' +
                                         '<div class="col-md-4"><strong>Notify Date</strong></div><div class="col-md-4"><strong>Event Count</strong></div><div class="col-md-4"><strong>Status</strong></div></div></li>';
                                 for (var j = 0; j != notificationResponse[0].minor[i].count; j++) {
-                                    if (j == 0) {
-                                        if (!machinenameSet)
-                                            document.getElementById("machinename").innerHTML = notificationResponse[0].critical[i].details[j].device;
-                                    }
                                     minorHtml += '<li class="list-group-item"><div class="row">' +
                                             '<div class="col-md-4">' + notificationResponse[0].minor[i].details[j].notifydate + '</div><div class="col-md-4">' + notificationResponse[0].minor[i].details[j].eventcount + '</div><div class="col-md-4">' + notificationResponse[0].minor[i].details[j].status + '</div></div></li>';
                                 }
-                                minorHtml += '</ul><button type="button" onclick="fixNowAction(' + i + ',`' + type + '`' + ')" class="btn btn-danger" style="float: right;">Fix Now</button></div></div>';
+                                minorHtml += '</ul><button type="button" onclick="getProfileTiles(' + notificationResponse[0].minor[i].nid + ',`' + notificationResponse[0].minor[i].nocname + '`,`minor`,' + i + ')" class="btn btn-danger" style="float: right;">Fix Now</button></div></div>';
                             }
+                            if (notificationResponse.minorcnt == 0)
+                                minorHtml += '<span style="margin-left: 3%;">No Minor Notification Found.!</span>';
                             document.getElementById("minorL1").innerHTML = minorHtml;
                             console.log(minorHtml);
                         }
@@ -173,41 +206,146 @@
                             console.log('There was an error 400');
                         }
                         else {
-                            console.log('something else other than 200 was returned');
                         }
                     }
                 };
-                if (typeof (Storage) !== "undefined") {
-                    localStorage.setItem("authorization", validateResponse.Authorization);
-                    localStorage.setItem("authToken", validateResponse.AuthToken);
-                } else {
-                    console.log("Web Storage Not supported!!");
+                try {
+                    if(authorization == "") throw "Authorization String Not set In Notification Summary Request!";
+					if(authToken == "") throw "Authtoken String Not set In Notification Summary Request!";
+					if(serviceTag == "") throw "Servicetag Not set In Notification Summary Request!";
+                    getNotificationRequest.open("POST", baseUrl+"/api/notification/getNotificationSummary");
+                    getNotificationRequest.setRequestHeader("Authorization", "Bearer " + authorization);
+                    getNotificationRequest.setRequestHeader("X-API-KEY", authToken);
+                    getNotificationRequest.send(JSON.stringify({"scopvalue": serviceTag}));
+                } catch (error) {
+                    console.log(error);
                 }
-                getNotificationRequest.open("GET", "https://msp.nanoheal.com/Dashboard/api/notification/getNotificationSummary", false);
-                getNotificationRequest.setRequestHeader("Authorization", "Bearer " + validateResponse.Authorization);
-                getNotificationRequest.setRequestHeader("X-API-KEY", validateResponse.AuthToken);
-                getNotificationRequest.send();
-            }
+                
+        }
+            else {
+                document.getElementById("errorTab").style.display = "block";
+                document.getElementById("notificationTab").style.display = "none";
+            }    
+        }
 
-            var collapseBtn = document.getElementsByClassName('collapsed');
-            for (var i = 0; i != collapseBtn.length; i++) {
-                collapseBtn[i].addEventListener("click", function () {
-                    console.log("Clicked");
-                });
+        function getProfileTiles(nid, name, type, index) {
+            var authorization, authToken = "";
+            if (existingsession = checkSessionValidity()) {
+                authorization = existingsession.Authorization;
+                authToken =  existingsession.AuthToken;
             }
+            else {
+                var newsession = createNewSession();
+                authorization = newsession.Authorization;
+                authToken =  newsession.AuthToken;
+            }
+            var profileTileRequest = new XMLHttpRequest();
+            var profileTileResponse = null;
+            profileTileRequest.onreadystatechange = function () {
+                if (profileTileRequest.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                    if (profileTileRequest.status == 200) {
+                        var profileTiles = JSON.parse(profileTileRequest.responseText);
+                        var heit = 485;
+                        var wid = 700;
+                        var lef = screen.width / 2 - wid / 2;
+                        var top = screen.height / 2 - heit / 2;
+                        var win = window.open("about:blank", nid, "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=" + wid + ",height=" + heit + ",top=" + top + ",left=" + lef);
+                        win.focus();
+                        win.document.head.innerHTML = '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />';
+                        win.document.head.innerHTML += '<style>.repair {float: right;width: 10%;padding-top: 4px;height: auto;min-height: 35px;background: #48b2e4;border-radius: 5px;text-align: center;font-size: 15px;position: absolute;right: 23px;top: 23px;} .repair a{color: #ffff;}</style>';
+                        var jscript = document.createElement("script");
+                        var titl = document.createElement("title");
+                        titl.innerHTML = name + '-' + serviceTag;
+                        win.document.head.appendChild(titl);
+                        jscript.innerHTML = notificationFix.toString();
+                        jscript.innerHTML += 'var serviceTag = "' + serviceTag + '";var ws = "";var serviceNowUsername = "' + serviceNowUsername + '";var currentntNotificationData = ' + JSON.stringify(notificationResponse[0][type][index]['details']) + ';var nocName="' + name + '";var nid="' + nid + '";var stausbarid="";var wsurl="'+wsurl+'";var reportingurl="'+reportingurl+'";var baseUrl="'+baseUrl+'";';
+                        jscript.innerHTML += ShowJobProgress.toString();
+                        jscript.innerHTML += checkSessionValidity.toString();
+                        jscript.innerHTML += createNewSession.toString();
+                        jscript.innerHTML += initializeNode.toString();
+                        jscript.innerHTML += "initializeNode('" + window.NOW.user_email + "','" + window.NOW.user_name + "');";
+                        win.document.head.appendChild(jscript);
+                        var htmlBody = '<ul id="dwquidfyh">';
+                        if (profileTiles.defaultfix.status === 'success') {
+                            var divid = 'notificationItemStatusbar' + nid + '_' + profileTiles.troubleshooting.profile;
+                            htmlBody += '<li class="list-group-item"><div class="clearfix">' +
+                                    '<div class="reset" style="width: 87%;"><h4>Default Fix'+
+                                    '</h4><p>' + decodeURIComponent((profileTiles.defaultfix.description + '').replace(/\+/g, '%20')) + '</p></div>' +
+                                    '<div id="maximize11" class="repair" style="display: block;">' +
+                                    '<a href="javascript:;" onclick="notificationFix(this,`' + divid + '`,`' + profileTiles.defaultfix.parentId + '`, `' + profileTiles.defaultfix.profile + '`, `' + profileTiles.defaultfix.dart + '`, `' + profileTiles.defaultfix.variable + '`, `' + profileTiles.defaultfix.shortDesc + '`, `' + profileTiles.defaultfix.shortDesc + '`,' + profileTiles.defaultfix.page + ', `' + profileTiles.defaultfix.menuItem +
+                                    '`);">Run</a></div></div>' +
+                                    '<div id="' + divid + '" style="color: red;text-align: right;">' +
+                                    '</div>' +
+                                    '</li>';
+                        }
+                        else {
+                            htmlBody += '<li class="list-group-item"><div class="clearfix">' +
+                                    '<div class="reset" style="width: 87%;"><h4>Default fix' +
+                                    '</h4><p>Default Fix Not Available for this Notification</p></div><div id="maximize11" class="repair" style="display: block;">' +
+                                    '<a href="javascript:;">Not Available</a></div></div></li>';
+                        }
+                        console.log("rhfyrgfhbfgrhybghbgrfhrhfff");
+                        console.log(htmlBody);
+                        for (var i = 0; i != profileTiles.troubleshooting.data.length; i++) {
+                            var divid = 'notificationItemStatusbar' + nid + '_' + profileTiles.troubleshooting.data[i].profile;
+                            divid = divid.replace(/\s/g, '');
+                            htmlBody += '<li class="list-group-item"><div class="clearfix">' +
+                                    '<div class="reset" style="width: 87%;"><h4>' + profileTiles.troubleshooting.data[i].shortDesc +
+                                    '</h4><p>' + decodeURIComponent((profileTiles.troubleshooting.data[i].description + '').replace(/\+/g, '%20')) + '</p></div>' +
+                                    '<div id="maximize11" class="repair" style="display: block;">' +
+                                    '<a href="javascript:;" onclick="notificationFix(this,`' + divid + '`,' + profileTiles.troubleshooting.data[i].parentId + ', `' + profileTiles.troubleshooting.data[i].profile + '`, `' + profileTiles.troubleshooting.data[i].dart + '`, `' + profileTiles.troubleshooting.data[i].variable + '`, `' + profileTiles.troubleshooting.data[i].shortDesc + '`, `' + profileTiles.troubleshooting.data[i].shortDesc + '`,' + profileTiles.troubleshooting.data[i].page + ', `' + profileTiles.troubleshooting.data[i].menuItem +
+                                    '`);">Run</a></div></div>' +
+                                    '<div id="' + divid + '" style="color: red;text-align: right;">' +
+                                    '</div>' +
+                                    '</li>';
+                        }
+                        htmlBody += '</ul>';
+                        win.document.body.innerHTML = htmlBody;
+                    }
+                    else if (profileTileRequest.status == 400) {
+                        console.log('There was an error 400');
+                    }
+                    else {
+                        console.log('something else other than 200 was returned');
+                    }
+                }
+            };
+            try {
+                if(authorization == "") throw "Authorization String Not set In Notification Summary Request!";
+                if(authToken == "") throw "Authtoken String Not set In Notification Summary Request!";
+                if(serviceTag == "") throw "Servicetag Not set In Notification Summary Request!";
+                if(nid == "") throw "Notification ID Not set In Get Profile Tiles Request!";
+                profileTileRequest.open("POST", baseUrl+"/api/profile/getProfileTiles");
+                profileTileRequest.setRequestHeader("Authorization", "Bearer " + authorization);
+                profileTileRequest.setRequestHeader("X-API-KEY", authToken);
+                profileTileRequest.send(JSON.stringify({"machine": serviceTag, "nid": nid}));
+            } catch (error) {
+                
+            }
+        }
 
-        }, false);
-        function fixNowAction(obj, index, type) {
-            localStorage.setItem("fixqueue", JSON.stringify(notificationResponse[0][type][index]));
+        function notificationFix(thisVal, statusbar, parentId, profile, dart, variable, varValue, description, page, menuitem) {
+            notificationdiv = statusbar;
+            var authorization, authToken = "";
+            if (existingsession = checkSessionValidity()) {
+                authorization = existingsession.Authorization;
+                authToken =  existingsession.AuthToken;
+            }
+            else {
+                var newsession = createNewSession();
+                authorization = newsession.Authorization;
+                authToken =  newsession.AuthToken;
+            }
             var profileRequest = new XMLHttpRequest();
-            var profileResponse = null;
             profileRequest.onreadystatechange = function () {
                 if (profileRequest.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
                     if (profileRequest.status == 200) {
-                       obj.innerHTML = "Fix Pushed";
-                       obj.classList.remove('btn-danger');
-                       obj.classList.add('btn-success');
-                       obj.disabled = true;
+                        var JobData = {};
+                        JobData['Type'] = 'ExecuteJob';
+                        JobData['ServiceTag'] = serviceTag;
+                        ws.send(JSON.stringify(JobData));
+                        thisVal.innerHTML = "Solution Pushed";
+                        thisVal.parentElement.style.backgroundColor = "green";
                     }
                     else if (profileRequest.status == 400) {
                         console.log('There was an error 400');
@@ -217,12 +355,51 @@
                     }
                 }
             };
-            var authorization = localStorage.getItem("authorization");
-            var authToken = localStorage.getItem("authToken");
-            profileRequest.open("POST", "https://msp.nanoheal.com/Dashboard/api/profile/actionNotifications", false);
-            profileRequest.setRequestHeader("Authorization", "Bearer " + authorization);
-            profileRequest.setRequestHeader("X-API-KEY", authToken);
-            profileRequest.send(JSON.stringify(notificationResponse[0][type][index]));
+            try{
+                if(authorization == "") throw "Authorization String Not set In Notification Fix Request!";
+                if(authToken == "") throw "Authtoken String Not set In Notification Fix Request!";
+                profileRequest.open("POST", baseUrl+"/api/profile/actionNotifications");
+                profileRequest.setRequestHeader("Authorization", "Bearer " + authorization);
+                profileRequest.setRequestHeader("X-API-KEY", authToken);
+                profileRequest.send(JSON.stringify({"machine": serviceTag, "shortDesc": description, "profileName": profile, "dartNumber": dart, "variable": variable, "snusername": serviceNowUsername, "details": currentntNotificationData, "nid": nid, "nocName": nocName}));
+            }
+            catch(error){
+                console.log(error);
+            }
+            
+        }
+
+        function changeIcon(obj) {
+            var ele = obj.getElementsByClassName("glyphicon")[0];
+            if (ele.classList.contains('glyphicon-plus') == true) {
+                ele.classList.remove('glyphicon-plus');
+                ele.classList.add('glyphicon-minus');
+            }
+            else {
+                ele.classList.remove('glyphicon-minus');
+                ele.classList.add('glyphicon-plus');
+            }
+        }
+
+        function initializeNode(email, username){
+            ws = new WebSocket('wss://'+wsurl);
+			ws.onopen = function () {
+				console.log('Connecting to Communication Server Success');
+				var ConnectData = {};
+				ConnectData['Type'] = 'Dashboard';
+				ConnectData['AgentId'] = email;
+				ConnectData['AgentName'] = username;
+				ConnectData['ReportingURL'] = reportingurl;
+				ws.send(JSON.stringify(ConnectData));
+			};
+			ws.onmessage = function (msg) {
+				ShowJobProgress(msg);
+			};
+			ws.onclose = function () {
+				setTimeout(function () {
+					wsconnect(wsurl);
+				}, 2000);
+			};
         }
     </script>
 </j:jelly>]]></xml>

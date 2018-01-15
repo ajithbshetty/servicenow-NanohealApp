@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sc_category">
+    <sc_category action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description/>
+        <entitlement_script/>
+        <header_icon/>
+        <homepage_image/>
+        <homepage_renderer display_value="">Default</homepage_renderer>
+        <icon/>
+        <image/>
+        <location/>
+        <mobile_hide_description>false</mobile_hide_description>
+        <mobile_picture/>
+        <mobile_subcategory_render_type>list</mobile_subcategory_render_type>
+        <module/>
+        <order>0</order>
+        <parent/>
+        <roles/>
+        <sc_catalog display_value="Service Catalog">e0d08b13c3330100c8b837659bba8fb4</sc_catalog>
+        <show_in_cms>false</show_in_cms>
+        <sys_class_name>sc_category</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-01-08 11:34:57</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>7b2be2590fef47007c72943be1050e0d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Self Help</sys_name>
+        <sys_package display_value="NanohealApp" source="x_179178_nanoheala">50d492d00f4303007c72943be1050e1d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="NanohealApp">50d492d00f4303007c72943be1050e1d</sys_scope>
+        <sys_update_name>sc_category_7b2be2590fef47007c72943be1050e0d</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-01-08 11:34:57</sys_updated_on>
+        <title>Self Help</title>
+    </sc_category>
+    <sys_translated_text action="delete_multiple" query="documentkey=7b2be2590fef47007c72943be1050e0d"/>
+</record_update>

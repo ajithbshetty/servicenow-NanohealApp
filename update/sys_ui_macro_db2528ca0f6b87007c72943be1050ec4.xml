@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_macro">
+    <sys_ui_macro action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category>general</category>
+        <description>This tab gives basic info </description>
+        <media_type/>
+        <name>Nanoheal basic info</name>
+        <scoped_name>x_179178_nanoheala_Nanoheal basic info</scoped_name>
+        <sys_class_name>sys_ui_macro</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-01-10 09:46:36</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>db2528ca0f6b87007c72943be1050ec4</sys_id>
+        <sys_mod_count>65</sys_mod_count>
+        <sys_name>Nanoheal basic info</sys_name>
+        <sys_package display_value="NanohealApp" source="x_179178_nanoheala">50d492d00f4303007c72943be1050e1d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="NanohealApp">50d492d00f4303007c72943be1050e1d</sys_scope>
+        <sys_update_name>sys_ui_macro_db2528ca0f6b87007c72943be1050ec4</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-01-15 06:02:38</sys_updated_on>
+        <xml><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	<style>
+		.panelrow {
+			height: 25px;
+		}
+		
+		.panelrow:not(:last-child) {
+			border-bottom: 1px solid #ccc;
+		}
+		
+		.panelhead {
+			background: #48b2e4 !important;
+			color: #ffff !important;
+		}
+		
+		.moreinfo {
+			width: 13%;
+			padding-top: 4px;
+			height: auto;
+			min-height: 35px;
+			background: #48b2e4;
+			color: #ffff;
+			border-radius: 5px;
+			text-align: center;
+			font-size: 15px;
+			margin-left: 40px;
+			display: block;
+		}
+		
+		.moreinfo a {
+			color: #ffff;
+			text-decoration: none;
+		}
+		
+		.topheader {
+			border-style: solid;
+			border-color: #ddd;
+			margin-bottom: 15px;
+			margin-left: 3px;
+			padding-top: 15px;
+			width: 100%;
+			border-width: 1px;
+			background-color: #f5f5f5;
+		}
+	</style>
+	<div id="errormessage" style="display: none;margin-left: 40px;">Please Configure nanoheal Application</div>
+	<div id="basicInfoTab" style="display: none;">
+
+		<div class="container">
+			<div class="row topheader">
+				<div class="col-md-2"><strong>Machine Name:</strong></div>
+				<div class="col-md-2" id="machinename1"></div>
+				<div class="col-md-2"><strong>Machine Status:</strong></div>
+				<div class="col-md-2" id="machinestatus1"></div>
+				<div>
+					<div class="export" localized="" style="display: block;float: right">
+						<a href="javascript:;" onclick="getBasicInfo();">
+							<span class="glyphicon glyphicon-refresh"></span> Refresh
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading panelhead">User Information</div>
+				<div class="panel-body">
+					<div class="row panelrow">
+						<div class="col-md-3 col-lg-3 col-sm-3 col-xs-3"><strong>Username:</strong></div>
+						<div class="col-md-3 col-lg-3 col-sm-3 col-xs-3" id="basicinfo-username"></div>
+						<div class="col-md-3 col-lg-3 col-sm-3 col-xs-3"><strong>Host Name:</strong></div>
+						<div class="col-md-3 col-lg-3 col-sm-3 col-xs-3" id="basicinfo-hostname"></div>
+					</div>
+					<div class="row panelrow">
+						<div class="col-md-3 col-lg-3 col-sm-3 col-xs-3"><strong>Domain:</strong></div>
+						<div class="col-md-3 col-lg-3 col-sm-3 col-xs-3" id="basicinfo-domain"></div>
+						<div class="col-md-3 col-lg-3 col-sm-3 col-xs-3"><strong>Site Name:</strong></div>
+						<div class="col-md-3 col-lg-3 col-sm-3 col-xs-3" id="basicinfo-sitename"></div>
+					</div>
+					<div class="row panelrow">
+						<div class="col-md-3 col-lg-3 col-sm-3 col-xs-3"><strong>Timezone:</strong></div>
+						<div class="col-md-3 col-lg-3 col-sm-3 col-xs-3" id="basicinfo-timezone"></div>
+						<div class="col-md-3 col-lg-3 col-sm-3 col-xs-3"><strong>IP Address:</strong></div>
+						<div class="col-md-3 col-lg-3 col-sm-3 col-xs-3" id="basicinfo-ipaddress"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+					<div class="panel panel-default">
+						<div class="panel-heading panelhead">Hardware Information</div>
+						<div class="panel-body">
+							<div class="row panelrow">
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6"><strong>Processor Manufacturer:</strong></div>
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" id="basicinfo-processmanufacturer"></div>
+							</div>
+							<div class="row panelrow">
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6"><strong>Processor Type:</strong></div>
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" id="basicinfo-processortype"></div>
+							</div>
+							<div class="row panelrow">
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6"><strong>Processor Version:</strong></div>
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" id="basicinfo-processorversion"></div>
+							</div>
+							<div class="row panelrow">
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6"><strong>Vendor:</strong></div>
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" id="basicinfo-vendor"></div>
+							</div>
+							<div class="row panelrow">
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6"><strong>Processor Current Speed:</strong></div>
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" id="basicinfo-processorcurrentspeed"></div>
+							</div>
+							<div class="row panelrow">
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6"><strong>Processor Max Speed:</strong></div>
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" id="basicinfo-processormaxspeed"></div>
+							</div>
+							<div class="row panelrow">
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6"><strong>Usable RAM(size in GB):</strong></div>
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" id="basicinfo-usableRAM"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+					<div class="panel panel-default">
+						<div class="panel-heading panelhead">Machine Information</div>
+						<div class="panel-body">
+							<div class="row panelrow">
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6"><strong>Product Manufacturer:</strong></div>
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" id="basicinfo-productmanufacturer"></div>
+							</div>
+							<div class="row panelrow">
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6"><strong>Product Name:</strong></div>
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" id="basicinfo-productname"></div>
+							</div>
+							<div class="row panelrow">
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6"><strong>Machine Serial Number:</strong></div>
+								<div class="col-md-6" id="basicinfo-machineserialnumber"></div>
+							</div>
+							<div class="row panelrow">
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6"><strong>Machine Type:</strong></div>
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" id="basicinfo-machinetype"></div>
+							</div>
+							<div class="row panelrow">
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6"><strong>Operating System:</strong></div>
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" id="basicinfo-operatingsystem"></div>
+							</div>
+							<div class="row panelrow">
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6"><strong>Service Pack:</strong></div>
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" id="basicinfo-servicepack"></div>
+							</div>
+							<div class="row panelrow">
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6"><strong>OS Type:</strong></div>
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" id="basicinfo-ostype"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="moreinfo">
+			<a href="">
+				More Information
+			</a>
+		</div>
+	</div>
+	<div id="errorTab3" style="display: none;">
+		<h5 style="margin-left: 15px;margin-bottom: 15px;">No Service Tag found. Please enter Service Tag..</h5>
+		<div>
+			<div class="col-sm-4 col-md-4">
+				<input type="text" class="form-control" id="servicetag2" placeholder="ServiceTag" /><input type="button" class="btn btn-default servicetagBtn"
+					onclick="javascript:getBasicInfo();" value="Submit" />
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+							var serviceTag = "";
+							var baseUrl = "";
+							var jwtToken = "";
+							var serviceNowUsername = window.NOW.user_name;
+							var serviceNowUserEmail = window.NOW.user_email;
+							var ws = '';
+							var wsurl = 'mspnode.nanoheal.com/hfnws';
+							var reportingurl = 'mspevent.nanoheal.com';
+							var notificationdiv = "";
+							document.addEventListener('DOMContentLoaded', function () {
+								var nanoheal_config = new GlideRecord('x_179178_nanoheala_nanoheal_config');
+								nanoheal_config.query();   // Issue the query to the database to get relevant records  
+								while (nanoheal_config.next()) {
+									console.log(nanoheal_config);
+									try {
+										baseUrl = nanoheal_config.baseurl;
+										jwtToken = nanoheal_config.jwttoken;
+									}
+									catch (e) {
+										console.log("Error is");
+										console.log(e);
+										document.getElementById("errormessage").style.display = "block";
+									}
+
+								}
+								if (ws === '') {
+									if (window.location.protocol !== "https:") {
+										wsconnect('ws://' + wsurl, reportingurl);
+										console.log('Connecting to Communication Server : ' + 'http://' + wsurl);
+									} else {
+										wsconnect('wss://' + wsurl, reportingurl);
+										console.log('Connecting to Communication Server : ' + 'https://' + wsurl);
+									}
+								} else {
+									console.log('Already Connected to Node');
+								}
+								try {
+									if (jwtToken == "") throw "API Token Not set";
+									if (baseUrl == "") throw "API Url Not set";
+									getBasicInfo();
+								}
+								catch (e) {
+									console.log(e);
+									document.getElementById("errormessage").style.display = "block";
+								}
+							});
+
+							// Getting Action history from API
+							function getBasicInfo() {
+								var authorization, authToken = "";
+								if (existingsession = checkSessionValidity()) {
+									authorization = existingsession.Authorization;
+									authToken = existingsession.AuthToken;
+								}
+								else {
+									var newsession = createNewSession();
+									authorization = newsession.Authorization;
+									authToken = newsession.AuthToken;
+								}
+								if (document.getElementById('incident.u_service_tag') != 'undefined') {
+									serviceTag = document.getElementById('incident.u_service_tag').value;
+								}
+								if (serviceTag == '') {
+									serviceTag = document.getElementById('servicetag2').value;
+								}
+								if (serviceTag != "") {
+									document.getElementById("errormessage").style.display = "none";
+									document.getElementById("errorTab3").style.display = "none";
+									document.getElementById("basicInfoTab").style.display = "block";
+									var basicInfoRequest = new XMLHttpRequest();
+									var basicInfoResponse = null;
+									basicInfoRequest.onreadystatechange = function () {
+										if (basicInfoRequest.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+											if (basicInfoRequest.status == 200) {
+												var basicInfo = JSON.parse(basicInfoRequest.responseText);
+												if (basicInfo['status'] == "success") {
+
+													// User Information
+													document.getElementById('basicinfo-username').innerHTML = basicInfo['username'];
+													document.getElementById('basicinfo-hostname').innerHTML = basicInfo['host'];
+													document.getElementById('basicinfo-domain').innerHTML = basicInfo['domain'];
+													document.getElementById('basicinfo-sitename').innerHTML = basicInfo['sitename'];
+													document.getElementById('basicinfo-timezone').innerHTML = basicInfo['timezone'];
+													document.getElementById('basicinfo-ipaddress').innerHTML = basicInfo['ipaddress'];
+
+													//Hardware Information
+													document.getElementById('basicinfo-processmanufacturer').innerHTML = basicInfo['processmanf'];
+													document.getElementById('basicinfo-processortype').innerHTML = basicInfo['proceetype'];
+													document.getElementById('basicinfo-processorversion').innerHTML = basicInfo['processmanf'];
+													document.getElementById('basicinfo-vendor').innerHTML = basicInfo['biosvendor'];
+													document.getElementById('basicinfo-processorcurrentspeed').innerHTML = basicInfo['processExtrclock'];
+													document.getElementById('basicinfo-processormaxspeed').innerHTML = basicInfo['processMaxspeed'];
+													document.getElementById('basicinfo-usableRAM').innerHTML = basicInfo['ramsize'];
+
+													//Machine Information
+													document.getElementById('basicinfo-productmanufacturer').innerHTML = basicInfo['systemManuf'];
+													document.getElementById('basicinfo-productname').innerHTML = basicInfo['systemProduct'];
+													document.getElementById('basicinfo-machineserialnumber').innerHTML = basicInfo['systemSerial'];
+													document.getElementById('basicinfo-machinetype').innerHTML = basicInfo['chassistype'];
+													document.getElementById('basicinfo-operatingsystem').innerHTML = basicInfo['os'];
+													document.getElementById('basicinfo-servicepack').innerHTML = "-";
+													document.getElementById('basicinfo-ostype').innerHTML = basicInfo['ntproducttype'];
+												}
+
+											}
+										}
+										else if (basicInfoRequest.status == 400) {
+											console.log('There was an error 400');
+										}
+										else {
+											console.log('something else other than 200 was returned');
+										}
+									}
+									try {
+										if (authorization == "") throw "Authorization String Not set In Machine Basic Info Request!";
+										if (authToken == "") throw "Authtoken String Not set In Machine Basic Info Request!";
+										if (serviceTag == "") throw "Servicetag Not set In Machine Basic Info Request!";
+										basicInfoRequest.open("POST", baseUrl + "/api/profile/machineBasicInfo");
+										basicInfoRequest.setRequestHeader("Authorization", "Bearer " + authorization);
+										basicInfoRequest.setRequestHeader("X-API-KEY", authToken);
+										basicInfoRequest.send(JSON.stringify({ "machine": serviceTag }));
+									}
+									catch (e) {
+										console.log(e);
+									}
+								}
+								else {
+									document.getElementById("errorTab3").style.display = "block";
+									document.getElementById("basicInfoTab").style.display = "none";
+								}
+							}
+
+							function checkSessionValidity() {
+								var stringValue = window.sessionStorage.getItem('nanohealSession');
+								if (stringValue !== null) {
+									var value = JSON.parse(stringValue);
+									var expirationDate = new Date(value.expirationDate);
+									if (expirationDate > new Date()) {
+										return value.value;
+									} else {
+										window.sessionStorage.removeItem('nanohealSession');
+									}
+								}
+								return null;
+							}
+
+							function createNewSession() {
+								var validateRequest = new XMLHttpRequest();
+								var validateResponse = "";
+								validateRequest.onreadystatechange = function () {
+									if (validateRequest.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+										if (validateRequest.status == 200) {
+											validateResponse = JSON.parse(validateRequest.responseText);
+											var expirationDate = new Date(new Date().getTime() + (60000 * 15))
+											var newValue = {
+												value: validateResponse,
+												expirationDate: expirationDate.toISOString()
+											}
+											window.sessionStorage.setItem('nanohealSession', JSON.stringify(newValue));
+											localStorage.setItem("authorization",validateResponse.authorization);
+											localStorage.setItem("authToken",validateResponse.authToken);
+										}
+										else {
+											console.log("Something other tha 200 returned!");
+										}
+									}
+									else if (validateRequest.status == 400) {
+										console.log('There was an error 400');
+									}
+									else {
+										console.log('something else other than 200 was returned');
+									}
+								}
+								try {
+									if (jwtToken == "") throw "Token Empty";
+									validateRequest.open("POST", baseUrl + "/api/validateuser", false);
+									validateRequest.setRequestHeader("Authorization", "Bearer " + jwtToken);
+									validateRequest.send();
+									return validateResponse;
+								} catch (error) {
+									console.log(error);
+									return false;
+								}
+
+							}
+
+							function wsconnect(wsurl, reportingurl) {
+								ws = new WebSocket(wsurl);
+								ws.onopen = function () {
+									console.log('Connecting to Communication Server Success');
+									var ConnectData = {};
+									ConnectData['Type'] = 'Dashboard';
+									ConnectData['AgentId'] = serviceNowUserEmail;
+									ConnectData['AgentName'] = window.NOW.user_name;
+									ConnectData['ReportingURL'] = reportingurl;
+									ws.send(JSON.stringify(ConnectData));
+								};
+								ws.onmessage = function (msg) {
+									ShowJobProgress(msg);
+								};
+								ws.onclose = function () {
+									setTimeout(function () {
+										wsconnect(wsurl);
+									}, 2000);
+								};
+							}
+
+							// progress bar
+							function ShowJobProgress(JobStatus) {
+								var JsonMsg = JSON.parse(JobStatus.data);
+								console.log(JsonMsg);
+								var Status = JsonMsg.Status;
+								var ServiceTag = JsonMsg.ServiceTag;
+								if (typeof ServiceTag !== "undefined") {
+									if (ServiceTag.length > 0) {
+										ServiceTag = ServiceTag.replace(/^\s+|\s+$/g, '');
+									}
+								}
+								serviceTag = serviceTag.replace(/^\s+|\s+$/g, '');
+								if (serviceTag !== ServiceTag) {
+									console.log("Other Pc");
+									return;
+								}
+
+								if (Status === 'System Online' || JobStatus === 'System Offline' || JobStatus === '' || JobStatus === 'ADMessage') {
+									return;
+								}
+								if (Status === 'Execution Completed' || Status === 'Execution Terminated' || Status === 'Execution Failed' || Status === 'System Offline') {
+									var mes = Status;
+									if (Status === 'System Offline') {
+										mes += 'System went Offline.';
+									}
+									else if (Status === 'Execution Failed') {
+										mes += 'Sorry, Execution Failed';
+									}
+									try {
+										document.getElementById(notificationdiv).innerHTML = mes;
+									} catch (error) {
+										console.log("Failed to push Progress Bar message");
+									}
+
+								}
+								else {
+									var res = Status.split("=");
+									try {
+										document.getElementById(notificationdiv).innerHTML = res[1] + '<img src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/fancybox_loading.gif" style="padding-left:10px;"/>';
+									} catch (error) {
+										console.log("Failed to push Progress Bar message");
+									}
+								}
+							}
+	</script>
+</j:jelly>]]></xml>
+    </sys_ui_macro>
+</record_update>

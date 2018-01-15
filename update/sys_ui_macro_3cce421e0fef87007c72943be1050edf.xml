@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_macro">
+    <sys_ui_macro action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category>general</category>
+        <description/>
+        <media_type/>
+        <name>NH software Installed</name>
+        <scoped_name>x_179178_nanoheala_NH software Installed</scoped_name>
+        <sys_class_name>sys_ui_macro</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-01-11 12:03:53</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>3cce421e0fef87007c72943be1050edf</sys_id>
+        <sys_mod_count>17</sys_mod_count>
+        <sys_name>NH software Installed</sys_name>
+        <sys_package display_value="NanohealApp" source="x_179178_nanoheala">50d492d00f4303007c72943be1050e1d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="NanohealApp">50d492d00f4303007c72943be1050e1d</sys_scope>
+        <sys_update_name>sys_ui_macro_3cce421e0fef87007c72943be1050edf</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-01-11 13:52:03</sys_updated_on>
+        <xml><![CDATA[<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+    <style>
+        .bottom-border{
+
+            border: 1px solid #DDD !important;
+        }
+        .panelHeading{
+            background-color:#278efc;
+		color: #fff;
+padding: 2%;
+        }
+		.panel-body{
+		padding: 0px 14px 0px 15px !important;
+		}
+		
+		.padding{
+		padding: 1% 1%;
+		}
+    </style>
+    <div class="container">
+        <div class="row">
+
+
+
+
+            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                <div class="panelHeading">Software Installed</div>
+                <div class="panel-body">
+                    <div class="row bottom-border">
+                        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 padding"><strong>Product Name</strong></div>
+                        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 padding" id="">Product Version</div>
+						<div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 padding" id="">Product Installed Date</div>
+                    </div>
+
+
+                    <div class="row bottom-border">
+                        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 padding" id="productName"><strong>Version</strong></div>
+                        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 padding" id="prodVersion">Value here</div>
+						<div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 padding" id="prodInstDate">Value here</div>
+                    </div>
+					 <div class="row bottom-border">
+                        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 padding"><strong>Version</strong></div>
+                        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 padding" id="prodVersion">Value here</div>
+						<div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 padding" id="prodInstDate">Value here</div>
+                    </div>
+					 <div class="row bottom-border">
+                        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 padding"><strong>Version</strong></div>
+                        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 padding" id="prodVersion">Value here</div>
+						<div class="col-md-4 col-lg-4 col-sm-4 col-xs-4 padding" id="prodInstDate">Value here</div>
+                    </div>
+
+                    
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+        </div>
+            
+            
+        </div>
+    </div>
+
+<script type="text/javascript">
+	//validateUser();
+	
+	getApiValue();
+	function getApiValue(){
+	var baseUrl="";
+	var jwtToken = "";	
+	var nanoheal_config = new GlideRecord('x_179178_nanoheala_nanoheal_config');
+			nanoheal_config.query();   // Issue the query to the database to get relevant records  
+			while (nanoheal_config.next()) {
+				console.log(nanoheal_config);
+				baseUrl = nanoheal_config.baseurl;
+				jwtToken = nanoheal_config.jwttoken;
+			}
+	// alert(baseUrl);
+	if (existingsession = checkSessionValidity()) {
+            getBasicInfo(existingsession.Authorization, existingsession.AuthToken);
+            console.log("Existing session data is ");
+            console.log(existingsession);
+        }
+        else {
+            var newsession = createNewSession();
+            getBasicInfo(newsession.Authorization, newsession.AuthToken);
+            console.log("New session data is ");
+            console.log(newsession);
+        }
+	
+	}
+	
+	 function getBasicInfo(authorization, authToken) {
+
+        if (baseUrl != "") {
+            if (document.getElementById('cmdb_ci_win_server.name') != 'undefined') {
+                serviceTag = document.getElementById('cmdb_ci_win_server.name').value;
+            }
+           
+            if (serviceTag != "") {
+               
+                var basicInfoRequest = new XMLHttpRequest();
+                var basicInfoResponse = null;
+                basicInfoRequest.onreadystatechange = function () {
+                    if (basicInfoRequest.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                        if (basicInfoRequest.status == 200) {
+                            
+                            var basicInfo = JSON.parse(basicInfoRequest.responseText);
+                           
+                            if (basicInfo['status'] == "success") {
+
+                                document.getElementById('productName').innerHTML = basicInfo['username'];
+                                document.getElementById('prodVersion').innerHTML = basicInfo['host'];
+                                document.getElementById('prodInstDate').innerHTML = basicInfo['domain'];
+                         
+
+                            }
+
+                        }
+                    }
+                    else if (basicInfoRequest.status == 400) {
+                        console.log('There was an error 400');
+                    }
+                    else {
+                        console.log('something else other than 200 was returned');
+                    }
+                }
+                var authorization = localStorage.getItem("authorization");
+                var authToken = localStorage.getItem("authToken");
+                basicInfoRequest.open("POST", baseUrl + "profile/machineBasicInfo", false);
+                basicInfoRequest.setRequestHeader("Authorization", "Bearer " + authorization);
+                basicInfoRequest.setRequestHeader("X-API-KEY", authToken);
+                basicInfoRequest.send(JSON.stringify({"machine": serviceTag}));
+            }
+            else {
+                document.getElementById("errorTab3").style.display = "block";
+                document.getElementById("basicInfoTab").style.display = "none";
+            }
+        }
+    }
+
+    function checkSessionValidity() {
+        var stringValue = window.sessionStorage.getItem('nanohealSession');
+        if (stringValue !== null) {
+            var value = JSON.parse(stringValue)
+            var expirationDate = new Date(value.expirationDate)
+            if (expirationDate > new Date()) {
+                return value.value;
+            } else {
+                window.sessionStorage.removeItem('nanohealSession');
+            }
+        }
+        return null;
+    }
+
+    function createNewSession() {
+        var validateRequest = new XMLHttpRequest();
+        var validateResponse = "dddd";
+        validateRequest.onreadystatechange = function () {
+            if (validateRequest.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                if (validateRequest.status == 200) {
+                    validateResponse = JSON.parse(validateRequest.responseText);
+                    var expirationDate = new Date(new Date().getTime() + (60000 * 15))
+                    var newValue = {
+                        value: validateResponse,
+                        expirationDate: expirationDate.toISOString()
+                    }
+                    window.sessionStorage.setItem('nanohealSession', JSON.stringify(newValue));
+                }
+                else {
+                    console.log("Web Storage Not supported!!");
+                }
+            }
+            else if (validateRequest.status == 400) {
+                console.log('There was an error 400');
+            }
+            else {
+                console.log('something else other than 200 was returned');
+            }
+        }
+        validateRequest.open("POST", baseUrl + "validateuser", false);
+        validateRequest.setRequestHeader("Authorization", "Bearer " + jwtToken);
+        validateRequest.send();
+        return validateResponse;
+    }
+	
+	
+	
+	</script>
+
+</j:jelly>]]></xml>
+    </sys_ui_macro>
+</record_update>
